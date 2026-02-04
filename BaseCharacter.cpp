@@ -29,7 +29,7 @@ void BaseCharacter::tick(float deltaTime)
     {
         frame++;
         runningTime = 0.f;
-        if (frame > maxFrames)
+        if (frame >= maxFrames)
             frame = 0;
     }
     if (Vector2Length(velocity) != 0.0)
@@ -38,11 +38,23 @@ void BaseCharacter::tick(float deltaTime)
         // Set worldPos += velocity
         worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed));
 
-        // Characters facing velocity
-        velocity.x < 0.f ? rightLeft = -1.f : rightLeft = 1.f;
+        if (velocity.x < 0.f)
+            rightLeft = -1.f;
+        else if (velocity.x > 0.f)
+            rightLeft = 1.f;
 
-        // Animation selection
-        texture = run;
+        if (velocity.y > 0.f)
+        {
+            texture = runDown;
+        }
+        else if (velocity.y < 0.f)
+        {
+            texture = runUp;
+        }
+        else
+        {
+            texture = run;
+        }
     }
     else
     {

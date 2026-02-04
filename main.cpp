@@ -6,14 +6,14 @@
 int main()
 {
     SetTargetFPS(60);
-    int windowWidth{600};
-    int windowHeight{400};
+    int windowWidth{1920};
+    int windowHeight{1080};
     InitWindow(windowWidth, windowHeight, "Duck U");
 
     // Map
     Texture2D map = LoadTexture("Assets/map.jpg");
     Vector2 mapPos{0.0, 0.0};
-    const float mapScale{1.f};
+    const float mapScale{1.5f};
 
     // Character
     Character sil{windowWidth, windowHeight};
