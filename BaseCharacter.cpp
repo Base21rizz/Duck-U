@@ -1,5 +1,6 @@
 #include "BaseCharacter.h"
 #include "raymath.h"
+#include "Particle.h"
 
 BaseCharacter::BaseCharacter()
 {
@@ -61,7 +62,6 @@ void BaseCharacter::tick(float deltaTime)
         // Animation selection
         texture = idle;
     }
-    velocity = {};
     // Drawing character to the screen
     Rectangle source{frame * width,
                      0.f,
@@ -77,4 +77,5 @@ void BaseCharacter::tick(float deltaTime)
                    Vector2{},
                    0.f,
                    WHITE);
+    velocity = {};
 }

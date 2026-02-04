@@ -2,21 +2,21 @@
 #include "raymath.h"
 #include "Character.h"
 #include <string>
-
+#include "Particle.h"
 int main()
 {
     SetTargetFPS(60);
-    int windowWidth{1920};
-    int windowHeight{1080};
+    int windowWidth{1280};
+    int windowHeight{720};
     InitWindow(windowWidth, windowHeight, "Duck U");
 
     // Map
     Texture2D map = LoadTexture("Assets/map.jpg");
     Vector2 mapPos{0.0, 0.0};
     const float mapScale{1.5f};
-
     // Character
-    Character sil{windowWidth, windowHeight};
+    Particle dust;
+    Character sil{windowWidth, windowHeight, dust};
 
     while (!WindowShouldClose())
     {

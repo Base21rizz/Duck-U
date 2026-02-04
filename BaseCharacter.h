@@ -15,8 +15,10 @@ public:
     virtual Vector2 getScreenPos() = 0;
     bool getAlive() { return alive; }
     void setAlive(bool isAlive) { alive = isAlive; }
+    float getRightLeft() { return rightLeft; }
 
 protected:
+    // Animation
     Texture2D texture{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D idle{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D run{LoadTexture("Assets/Animation/run_right.png")};

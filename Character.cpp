@@ -1,8 +1,10 @@
 #include "Character.h"
 #include "raymath.h"
+#include "Particle.h"
 
-Character::Character(int winWidth, int winHeight) : windowWidth(winWidth),
-                                                    windowHeight(winHeight)
+Character::Character(int winWidth, int winHeight, Particle dusty) : windowWidth(winWidth),
+                                                                    windowHeight(winHeight),
+                                                                    dust(dusty)
 {
     width = texture.width / maxFrames;
     height = texture.height;
@@ -32,6 +34,8 @@ void Character::tick(float deltaTime)
     Vector2 origin{};
     Vector2 offset{};
     float rotation{};
+
+    dust.tick(GetFrameTime(), getRightLeft());
 
     if (rightLeft > 0.f)
     {
