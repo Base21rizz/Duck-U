@@ -29,13 +29,12 @@ void Character::tick(float deltaTime)
     if (IsKeyDown(KEY_S))
         velocity.y += 1.0;
 
+    dust.tick(GetFrameTime(), getRightLeft(), velocity);
     BaseCharacter::tick(deltaTime);
 
     Vector2 origin{};
     Vector2 offset{};
     float rotation{};
-
-    dust.tick(GetFrameTime(), getRightLeft());
 
     if (rightLeft > 0.f)
     {

@@ -1,13 +1,15 @@
 #include "raylib.h"
 #include "Particle.h"
 #include "raymath.h"
+#include <string>
 
 Particle::Particle()
 {
 }
 
-void Particle::tick(float deltaTime, float rightLeftDir)
+void Particle::tick(float deltaTime, float rightLeftDir, Vector2 velocity)
 {
+
     float goon = 0.f;
     if (rightLeftDir > 0)
     {
@@ -31,10 +33,15 @@ void Particle::tick(float deltaTime, float rightLeftDir)
                    (float)720 / 2.f - scale * (0.5f * height) + 320.f,
                    (float)scale * width,
                    (float)scale * height};
-    DrawTexturePro(run_dust,
-                   source,
-                   dest,
-                   Vector2{},
-                   -90.f,
-                   WHITE);
+    if (velocity.x != 0.f || velocity.y != 0.f)
+    {
+        DrawTexturePro(run_dust,
+                       source,
+                       dest,
+                       Vector2{},
+                       -90.f,
+                       WHITE);
+    }
+    std::string debugText = "Rotation: " + std::to_string(velocity.x) + ", " + std::to_string(velocity.y);
+    DrawText(debugText.c_str(), 155, 280, 20, GREEN);
 }

@@ -16,7 +16,7 @@ public:
     float scale{5.f};
     float width{(float)run_dust.width / maxFramesDust};
     float height{(float)run_dust.height};
-    void tick(float deltaTime, float rightLeftDir);
+    void tick(float deltaTime, float rightLeftDir, Vector2 velocity);
     float rightLeftDir;
 
 private:

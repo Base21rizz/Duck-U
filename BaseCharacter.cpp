@@ -77,5 +77,6 @@ void BaseCharacter::tick(float deltaTime)
                    Vector2{},
                    0.f,
                    WHITE);
+
     velocity = {};
 }
