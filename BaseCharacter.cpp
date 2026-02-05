@@ -1,6 +1,7 @@
 #include "BaseCharacter.h"
 #include "raymath.h"
 #include "Particle.h"
+#include <string>
 
 BaseCharacter::BaseCharacter()
 {
@@ -61,6 +62,53 @@ void BaseCharacter::tick(float deltaTime)
     {
         // Animation selection
         texture = idle;
+    }
+    Vector2 origin{};
+    Vector2 offset{};
+    float rotation{};
+
+    if (rightLeft > 0.f && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    {
+        undoMovement();
+        if (!getAlive())
+            return;
+        origin = {0.f, 0.f};
+        offset = {54.f, 40.f};
+        weaponCollisionRec = {
+            getScreenPos().x + offset.x * scale,
+            getScreenPos().y + offset.y * scale,
+            50,
+            10};
+        texture = rightAttack;
+        std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
+        DrawText(debugText.c_str(), 500, 280, 20, GREEN);
+        DrawRectangleLines(
+            weaponCollisionRec.x,
+            weaponCollisionRec.y,
+            weaponCollisionRec.width,
+            weaponCollisionRec.height,
+            RED);
+    }
+    else if (rightLeft <= 0.f && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    {
+        undoMovement();
+
+        origin = {0.f, 0.f};
+        offset = {25.f, 40.f};
+        weaponCollisionRec = {
+            getScreenPos().x + offset.x * scale,
+            getScreenPos().y + offset.y * scale,
+            50,
+            10};
+        texture = rightAttack;
+        std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
+        DrawText(debugText.c_str(), 500, 280, 20, GREEN);
+        DrawRectangleLines(
+            weaponCollisionRec.x,
+            weaponCollisionRec.y,
+            weaponCollisionRec.width,
+            weaponCollisionRec.height,
+            RED);
     }
     // Drawing character to the screen
     Rectangle source{frame * width,

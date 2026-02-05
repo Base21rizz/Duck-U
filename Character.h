@@ -23,7 +23,7 @@ public:
 private:
     int windowWidth{};
     int windowHeight{};
-    Texture2D weapon{LoadTexture("characters/weapon_sword.png")};
+    Texture2D weapon{};
     Rectangle weaponCollisionRec{};
     float health{100.f};
 };

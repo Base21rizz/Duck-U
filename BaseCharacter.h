@@ -24,7 +24,13 @@ protected:
     Texture2D run{LoadTexture("Assets/Animation/run_right.png")};
     Texture2D runDown{LoadTexture("Assets/Animation/run_down.png")};
     Texture2D runUp{LoadTexture("Assets/Animation/run_up.png")};
+    Texture2D rightAttack{LoadTexture("Assets/Animation/attack1_right.png")};
+    Texture2D leftAttack{LoadTexture("Assets/Animation/attack1_left.png")};
+    Texture2D upAttack{LoadTexture("Assets/Animation/attack1_up.png")};
+    Texture2D downAttack{LoadTexture("Assets/Animation/attack1_down.png")};
+
     Vector2 worldPos{};
+    Rectangle weaponCollisionRec{};
     Vector2 worldPosLastFrame{};
     // 1 : facing right, -1 : facing left
     float rightLeft{1.f};

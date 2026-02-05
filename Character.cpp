@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "raymath.h"
 #include "Particle.h"
+#include <string>
 
 Character::Character(int winWidth, int winHeight, Particle dusty) : windowWidth(winWidth),
                                                                     windowHeight(winHeight),
@@ -31,44 +32,11 @@ void Character::tick(float deltaTime)
 
     dust.tick(GetFrameTime(), getRightLeft(), velocity);
     BaseCharacter::tick(deltaTime);
-
-    Vector2 origin{};
-    Vector2 offset{};
-    float rotation{};
-
-    if (rightLeft > 0.f)
-    {
-        if (!getAlive())
-            return;
-
-        origin = {0.f, weapon.height * scale};
-        offset = {35.f, 55.f};
-        weaponCollisionRec = {
-            getScreenPos().x + offset.x,
-            getScreenPos().y + offset.y - weapon.height * scale,
-            weapon.width * scale,
-            weapon.height * scale};
-        rotation = 35.f;
-        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? 35.f : 0.f;
-    }
-    else
-    {
-        origin = {weapon.width * scale, weapon.height * scale};
-        offset = {25.f, 55.f};
-        weaponCollisionRec = {
-            getScreenPos().x + offset.x - weapon.width * scale,
-            getScreenPos().y + offset.y - weapon.height * scale,
-            weapon.width * scale,
-            weapon.height * scale};
-        rotation = -35.f;
-        rotation = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? -35.f : 0.f;
-    }
-
-    // Draw the sword
-    Rectangle source{0.f, 0.f, static_cast<float>(weapon.width) * rightLeft, static_cast<float>(weapon.height)};
-    Rectangle dest{getScreenPos().x + offset.x, getScreenPos().y + offset.y, weapon.width * scale, weapon.height * scale};
-    DrawTexturePro(weapon, source, dest, origin, rotation, WHITE);
 }
+// Draw the sword
+/* Rectangle source{0.f, 0.f, static_cast<float>(weapon.width) * rightLeft, static_cast<float>(weapon.height)};
+Rectangle dest{getScreenPos().x + offset.x, getScreenPos().y + offset.y, weapon.width * scale, weapon.height * scale};
+DrawTexturePro(weapon, source, dest, origin, rotation, WHITE); */
 
 void Character::takeDamage(float damage)
 {
