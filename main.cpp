@@ -3,6 +3,7 @@
 #include "Character.h"
 #include <string>
 #include "Particle.h"
+#include "Enemy.h"
 int main()
 {
     SetTargetFPS(60);
@@ -18,6 +19,12 @@ int main()
     Particle dust;
     Character sil{windowWidth, windowHeight, dust};
 
+    // Enemy
+    Enemy ducky{
+        Vector2{},
+        LoadTexture("Assets/Animation/Ducky/ducky-idle.png"),
+        LoadTexture("Assets/Animation/Ducky/ducky-walk.png")};
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -29,6 +36,7 @@ int main()
 
         sil.tick(GetFrameTime());
 
+        ducky.tick(GetFrameTime());
         EndDrawing();
     }
     UnloadTexture(map);
