@@ -41,17 +41,24 @@ void BaseCharacter::tick(float deltaTime)
         worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed));
 
         if (velocity.x < 0.f)
+        {
             rightLeft = -1.f;
+            upDown = 0.f;
+        }
         else if (velocity.x > 0.f)
+        {
             rightLeft = 1.f;
-
+            upDown = 0.f;
+        }
         if (velocity.y > 0.f)
         {
             texture = runDown;
+            upDown = -1.f;
         }
         else if (velocity.y < 0.f)
         {
             texture = runUp;
+            upDown = 1.f;
         }
         else
         {
@@ -65,51 +72,92 @@ void BaseCharacter::tick(float deltaTime)
     }
     Vector2 origin{};
     Vector2 offset{};
-    float rotation{};
-
-    if (rightLeft > 0.f && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
     {
-        undoMovement();
-        if (!getAlive())
-            return;
-        origin = {0.f, 0.f};
-        offset = {54.f, 40.f};
-        weaponCollisionRec = {
-            getScreenPos().x + offset.x * scale,
-            getScreenPos().y + offset.y * scale,
-            50,
-            10};
-        texture = rightAttack;
-        std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
-        DrawText(debugText.c_str(), 500, 280, 20, GREEN);
-        DrawRectangleLines(
-            weaponCollisionRec.x,
-            weaponCollisionRec.y,
-            weaponCollisionRec.width,
-            weaponCollisionRec.height,
-            RED);
-    }
-    else if (rightLeft <= 0.f && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-    {
-        undoMovement();
 
-        origin = {0.f, 0.f};
-        offset = {25.f, 40.f};
-        weaponCollisionRec = {
-            getScreenPos().x + offset.x * scale,
-            getScreenPos().y + offset.y * scale,
-            50,
-            10};
-        texture = rightAttack;
-        std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
-        DrawText(debugText.c_str(), 500, 280, 20, GREEN);
-        DrawRectangleLines(
-            weaponCollisionRec.x,
-            weaponCollisionRec.y,
-            weaponCollisionRec.width,
-            weaponCollisionRec.height,
-            RED);
+        if (rightLeft > 0.f && upDown == 0.f) // right looking
+        {
+            undoMovement();
+            if (!getAlive())
+                return;
+            origin = {0.f, 0.f};
+            offset = {54.f, 40.f};
+            weaponCollisionRec = {
+                getScreenPos().x + offset.x * scale,
+                getScreenPos().y + offset.y * scale,
+                100,
+                10};
+            texture = rightAttack;
+
+            DrawRectangleLines(
+                weaponCollisionRec.x,
+                weaponCollisionRec.y,
+                weaponCollisionRec.width,
+                weaponCollisionRec.height,
+                RED);
+        }
+        else if (rightLeft < 0.f && upDown == 0.f) // left looking
+        {
+            undoMovement();
+            origin = {0.f, 0.f};
+            offset = {10.f, 40.f};
+            weaponCollisionRec = {
+                getScreenPos().x + offset.x * scale,
+                getScreenPos().y + offset.y * scale,
+                80,
+                10};
+            texture = rightAttack;
+            DrawRectangleLines(
+                weaponCollisionRec.x,
+                weaponCollisionRec.y,
+                weaponCollisionRec.width,
+                weaponCollisionRec.height,
+                RED);
+        }
+        if (upDown > 0.f) // Up looking
+        {
+            undoMovement();
+            if (!getAlive())
+                return;
+            origin = {0.f, 0.f};
+            offset = {18.f, 15.f};
+            weaponCollisionRec = {
+                getScreenPos().x + offset.x * scale,
+                getScreenPos().y + offset.y * scale,
+                170,
+                100};
+            rightLeft = 1.f;
+            texture = upAttack;
+            DrawRectangleLines(
+                weaponCollisionRec.x,
+                weaponCollisionRec.y,
+                weaponCollisionRec.width,
+                weaponCollisionRec.height,
+                RED);
+        }
+        else if (upDown < 0.f) // Down looking
+        {
+            undoMovement();
+            origin = {0.f, 0.f};
+            offset = {20.f, 33.f};
+            weaponCollisionRec = {
+                getScreenPos().x + offset.x * scale,
+                getScreenPos().y + offset.y * scale,
+                170,
+                113};
+            texture = downAttack;
+            std::string debugText = "Rotation: " + std::to_string(upDown) + ", " + std::to_string(upDown);
+            DrawText(debugText.c_str(), 500, 280, 20, GREEN);
+            DrawRectangleLines(
+                weaponCollisionRec.x,
+                weaponCollisionRec.y,
+                weaponCollisionRec.width,
+                weaponCollisionRec.height,
+                RED);
+        }
     }
+    std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
+    DrawText(debugText.c_str(), 500, 280, 20, GREEN);
     // Drawing character to the screen
     Rectangle source{frame * width,
                      0.f,

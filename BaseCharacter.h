@@ -34,6 +34,8 @@ protected:
     Vector2 worldPosLastFrame{};
     // 1 : facing right, -1 : facing left
     float rightLeft{1.f};
+    float upDown{0.f};
+    Vector2 directional{rightLeft, upDown};
     // Animation variable
     float runningTime{};
     int frame{};
