@@ -25,6 +25,14 @@ int main()
         LoadTexture("Assets/Animation/Ducky/ducky-idle.png"),
         LoadTexture("Assets/Animation/Ducky/ducky-walk.png")};
 
+    Enemy *enemies[]{
+        &ducky};
+
+    for (auto enemy : enemies)
+    {
+        enemy->setTarget(&sil);
+    }
+
     while (!WindowShouldClose())
     {
         BeginDrawing();

@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "Character.h"
 
 class Enemy
 {
@@ -6,10 +7,15 @@ public:
     Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture);
     Vector2 getworldPos() { return worldPos; }
     void tick(float deltaTime);
+    Vector2 getScreenPos();
+    void setTarget(Character *character) { target = character; }
+    bool getAlive() { return alive; }
+    void setAlive(bool isAlive) { alive = isAlive; }
     void undoMovement();
     Rectangle getCollisionRec();
 
 private:
+    Character *target;
     Texture2D texture{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D idle{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D run{LoadTexture("Assets/Animation/run_right.png")};
@@ -24,8 +30,11 @@ private:
     int frame{};
     int maxFrames{2};
     float updateTime{1.f / 6.f};
-    float speed{4.f};
+    float speed{3.5f};
     float width{};
     float height{};
     float scale{3.0f};
+    Vector2 velocity{};
+    float radius{0.f};
+    bool alive{true};
 };

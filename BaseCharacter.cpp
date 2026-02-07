@@ -34,6 +34,17 @@ void BaseCharacter::tick(float deltaTime)
         if (frame >= maxFrames)
             frame = 0;
     }
+    // Debugging
+    DrawRectangle(
+        getScreenPos().x,
+        getScreenPos().y,
+        5, 5, BLUE);
+    DrawText("ScreenPos", getScreenPos().x, getScreenPos().y - 20, 10, BLUE);
+
+    std::string worldPosText = "WorldPos: " + std::to_string((int)worldPos.x) + ", " + std::to_string((int)worldPos.y);
+    DrawText(worldPosText.c_str(), 20, 20, 20, BLUE);
+    DrawRectangleLinesEx(getCollisionRec(), 2.0f, GREEN);
+    DrawCircleV(getScreenPos(), 5.f, RED);
     if (Vector2Length(velocity) != 0.0)
     {
 
