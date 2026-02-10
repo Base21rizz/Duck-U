@@ -5,8 +5,8 @@ class Enemy
 {
 public:
     Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture);
-    Vector2 getworldPos() { return worldPos; }
     void tick(float deltaTime);
+    Vector2 getworldPos() { return worldPos; }
     Vector2 getScreenPos();
     void setTarget(Character *character) { target = character; }
     bool getAlive() { return alive; }
@@ -19,7 +19,6 @@ private:
     Texture2D texture{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D idle{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D run{LoadTexture("Assets/Animation/run_right.png")};
-
     Vector2 screenPos{};
     Vector2 worldPos{};
     Vector2 worldPosLastFrame{};
@@ -30,11 +29,11 @@ private:
     int frame{};
     int maxFrames{2};
     float updateTime{1.f / 6.f};
-    float speed{3.5f};
+    float speed{100.f};
     float width{};
     float height{};
     float scale{3.0f};
     Vector2 velocity{};
-    float radius{0.f};
+    float radius{50.f};
     bool alive{true};
 };

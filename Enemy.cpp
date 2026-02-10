@@ -13,20 +13,28 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture) : world
 void Enemy::tick(float deltaTime)
 {
     worldPosLastFrame = worldPos;
+
     if (!getAlive())
         return;
+    Vector2 CharacterScreenPos = target->getScreenPos();
+    Vector2 EnemyScreenPos = getScreenPos();
+    Vector2 CharacterCenterPos = Vector2Add(CharacterScreenPos, Vector2{target->width * target->scale / 2, target->height * target->scale / 2});
+    Vector2 EnemyCenterPos = Vector2Add(EnemyScreenPos, Vector2{width * scale / 2, height * scale / 2});
 
-    velocity = Vector2Subtract(target->getworldPos(), worldPos);
+    velocity = Vector2Subtract(CharacterCenterPos, EnemyCenterPos);
+    DrawCircleV(CharacterCenterPos, 5, ORANGE);
+    DrawCircleV(EnemyCenterPos, 5, PURPLE);
+    DrawRectangleLinesEx(getCollisionRec(), 2.0f, YELLOW);
     if (Vector2Length(velocity) < radius)
     {
-        velocity = {};
+        undoMovement();
         texture = idle;
         maxFrames = 2;
+        velocity = {};
     }
     else
     {
-        Vector2 direction = Vector2Normalize(velocity);
-        worldPos = Vector2Add(worldPos, Vector2Scale(direction, speed * deltaTime));
+        worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed * deltaTime));
         texture = run;
         maxFrames = 4;
         velocity.x < 0.f ? rightLeft = -1.f : rightLeft = 1.f;

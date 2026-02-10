@@ -16,6 +16,9 @@ public:
     bool getAlive() { return alive; }
     void setAlive(bool isAlive) { alive = isAlive; }
     float getRightLeft() { return rightLeft; }
+    float width{};
+    float height{};
+    float scale{3.0f};
 
 protected:
     // Animation
@@ -42,9 +45,6 @@ protected:
     int maxFrames{8};
     float updateTime{1.f / 18.f};
     float speed{4.f};
-    float width{};
-    float height{};
-    float scale{3.0f};
     Vector2 velocity{};
 
 private:
