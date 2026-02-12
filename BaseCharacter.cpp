@@ -92,12 +92,12 @@ void BaseCharacter::tick(float deltaTime)
             if (!getAlive())
                 return;
             origin = {0.f, 0.f};
-            offset = {54.f, 40.f};
+            offset = {44.f, 25.f};
             weaponCollisionRec = {
                 getScreenPos().x + offset.x * scale,
                 getScreenPos().y + offset.y * scale,
-                100,
-                10};
+                130,
+                80};
             texture = rightAttack;
 
             DrawRectangleLines(
@@ -111,12 +111,12 @@ void BaseCharacter::tick(float deltaTime)
         {
             undoMovement();
             origin = {0.f, 0.f};
-            offset = {10.f, 40.f};
+            offset = {10.f, 25.f};
             weaponCollisionRec = {
                 getScreenPos().x + offset.x * scale,
                 getScreenPos().y + offset.y * scale,
-                80,
-                10};
+                130,
+                80};
             texture = rightAttack;
             DrawRectangleLines(
                 weaponCollisionRec.x,
@@ -157,8 +157,6 @@ void BaseCharacter::tick(float deltaTime)
                 170,
                 113};
             texture = downAttack;
-            std::string debugText = "Rotation: " + std::to_string(upDown) + ", " + std::to_string(upDown);
-            DrawText(debugText.c_str(), 500, 280, 20, GREEN);
             DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
