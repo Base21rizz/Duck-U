@@ -2,10 +2,10 @@
 #include "raymath.h"
 #include <string>
 
-Enemy::Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture, float *Col) : worldPos(pos),
-                                                                                       texture(idle_Texture),
+Enemy::Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture, float *Col) : texture(idle_Texture),
                                                                                        idle(idle_Texture),
                                                                                        run(run_Texture),
+                                                                                       worldPos(pos),
                                                                                        HBCol(Col)
 {
     width = texture.width / maxFrames;
@@ -13,6 +13,12 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture, float *
 }
 void Enemy::tick(float deltaTime)
 {
+    if (getAlive()) // Enemy is alive
+    {
+        std::string enemyHealth = "Enemy Health: ";
+        enemyHealth.append(std::to_string(EnemyHealth), 0, 5);
+        DrawText(enemyHealth.c_str(), 55.f, 45.f, 40, BLUE);
+    }
     worldPosLastFrame = worldPos;
 
     if (!getAlive())
@@ -65,40 +71,25 @@ void Enemy::tick(float deltaTime)
                    Vector2{},
                    0.f,
                    WHITE);
-
     velocity = {};
 
     if (CheckCollisionRecs(target->getFixedCollisionRec(), getFixedCollisionRec()))
     {
         target->takeDamage(damagePerSec * deltaTime);
         if (target->getHealth() == 100)
-        {
             *HBCol = 1;
-        }
         else if (target->getHealth() >= 83.33f)
-        {
             *HBCol = 2;
-        }
         else if (target->getHealth() >= 66.66f)
-        {
             *HBCol = 3;
-        }
         else if (target->getHealth() >= 50.f)
-        {
             *HBCol = 4;
-        }
         else if (target->getHealth() >= 33.33f)
-        {
             *HBCol = 5;
-        }
         else if (target->getHealth() >= 16.66f)
-        {
             *HBCol = 6;
-        }
         else if (target->getHealth() <= 0.f)
-        {
             *HBCol = 7;
-        }
 
         DrawText(std::to_string(*HBCol).c_str(), 200, 110, 20, BLUE);
     }
@@ -128,4 +119,13 @@ Rectangle Enemy::getFixedCollisionRec()
 Vector2 Enemy::getScreenPos()
 {
     return screenPos = Vector2Subtract(worldPos, target->getworldPos());
+}
+
+void Enemy::takeDamage(float damage)
+{
+    EnemyHealth -= damage;
+    if (EnemyHealth <= 0)
+    {
+        setAlive(false);
+    }
 }

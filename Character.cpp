@@ -3,9 +3,9 @@
 #include "Particle.h"
 #include <string>
 
-Character::Character(int winWidth, int winHeight, Particle dusty) : windowWidth(winWidth),
-                                                                    windowHeight(winHeight),
-                                                                    dust(dusty)
+Character::Character(int winWidth, int winHeight, Particle dusty) : dust(dusty),
+                                                                    windowWidth(winWidth),
+                                                                    windowHeight(winHeight)
 {
     width = texture.width / maxFrames;
     height = texture.height;
@@ -21,9 +21,7 @@ Vector2 Character::getScreenPos()
 void Character::tick(float deltaTime)
 {
     if (!getAlive())
-    {
         return;
-    }
 
     // Animation Variable
     if (IsKeyDown(KEY_A))

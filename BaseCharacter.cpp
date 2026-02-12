@@ -167,7 +167,7 @@ void BaseCharacter::tick(float deltaTime)
                 weaponCollisionRec.height,
                 BLUE);
         }
-    }
+        }
     else
     {
         // Reset the box so it disappears when not attacking

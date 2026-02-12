@@ -92,7 +92,7 @@ int main()
         {
             if (CheckCollisionRecs(enemy.getFixedCollisionRec(), sil.getWeaponCollisionRec()))
             {
-                enemy.setAlive(false);
+                enemy.takeDamage(sil.damagePerSec * GetFrameTime());
             }
         }
         EndDrawing();

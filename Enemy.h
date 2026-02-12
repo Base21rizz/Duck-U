@@ -14,6 +14,8 @@ public:
     void undoMovement();
     Rectangle getCollisionRec();
     Rectangle getFixedCollisionRec();
+    float getHealth() const { return EnemyHealth; }
+    void takeDamage(float damage);
 
 private:
     Character *target;
@@ -37,6 +39,7 @@ private:
     Vector2 velocity{};
     float radius{50.f};
     bool alive{true};
-    float damagePerSec{25.f};
+    float damagePerSec{10.f};
     float *HBCol;
+    float EnemyHealth{50.f};
 };
