@@ -22,6 +22,7 @@ private:
     Texture2D texture{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D idle{LoadTexture("Assets/Animation/idle_right.png")};
     Texture2D run{LoadTexture("Assets/Animation/run_right.png")};
+    Texture2D healthBar = LoadTexture("Assets/04.png");
     Vector2 screenPos{};
     Vector2 worldPos{};
     Vector2 worldPosLastFrame{};
@@ -42,4 +43,9 @@ private:
     float damagePerSec{10.f};
     float *HBCol;
     float EnemyHealth{50.f};
+    float EnemyHealthRow = 5;
+    float EnemyHealthCol = 22;
+    float EnemyHealthWidth = healthBar.width / EnemyHealthCol;
+    float EnemyHealthHeight = healthBar.height / EnemyHealthRow;
+    float curEnemyCol{9};
 };

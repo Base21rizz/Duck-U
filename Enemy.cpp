@@ -13,16 +13,37 @@ Enemy::Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture, float *
 }
 void Enemy::tick(float deltaTime)
 {
+    if (!getAlive())
+        return;
     if (getAlive()) // Enemy is alive
     {
         std::string enemyHealth = "Enemy Health: ";
         enemyHealth.append(std::to_string(EnemyHealth), 0, 5);
-        DrawText(enemyHealth.c_str(), 55.f, 45.f, 40, BLUE);
+        if (EnemyHealth == 50.00)
+            curEnemyCol = 9;
+        else if (EnemyHealth >= 40.00)
+            curEnemyCol = 10;
+        else if (EnemyHealth >= 20.00)
+            curEnemyCol = 12;
+        else if (EnemyHealth >= 10.00)
+            curEnemyCol = 13;
+        else if (EnemyHealth == 0.00)
+            curEnemyCol = 14;
+
+        Rectangle HR{
+            EnemyHealthRow * EnemyHealthHeight,
+            curEnemyCol * EnemyHealthWidth,
+            EnemyHealthWidth,
+            EnemyHealthHeight};
+        Rectangle DT{
+            getScreenPos().x,
+            getScreenPos().y - 20,
+            4 * EnemyHealthWidth,
+            4 * EnemyHealthHeight};
+        DrawTexturePro(healthBar, HR, DT, Vector2{0, 0}, 0.f, WHITE);
     }
     worldPosLastFrame = worldPos;
 
-    if (!getAlive())
-        return;
     Vector2 CharacterScreenPos = target->getScreenPos();
     Vector2 EnemyScreenPos = getScreenPos();
     Vector2 CharacterCenterPos = Vector2Add(CharacterScreenPos, Vector2{target->width * target->scale / 2, target->height * target->scale / 2});

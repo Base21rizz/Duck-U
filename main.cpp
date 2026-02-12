@@ -19,6 +19,8 @@ int main()
     int windowWidth{1280};
     int windowHeight{720};
     InitWindow(windowWidth, windowHeight, "Duck U");
+
+    // Character's Health Bar
     Texture2D healthBar = LoadTexture("Assets/04.png");
     float HealthRow = 14;
     float HealthCol = 7;
@@ -30,6 +32,7 @@ int main()
     Texture2D map = LoadTexture("Assets/map.jpg");
     Vector2 mapPos{0.0, 0.0};
     const float mapScale{1.5f};
+
     // Character
     Particle dust;
     Character sil{windowWidth, windowHeight, dust};
