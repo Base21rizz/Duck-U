@@ -42,9 +42,32 @@ int main()
 
         DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
 
+        if (!sil.getAlive()) // Character's Dead
+        {
+            DrawText("Game Over!", 55.f, 45.f, 40, RED);
+        }
+        else // Character's Alive
+        {
+            std::string silsHealth = "Health: ";
+            silsHealth.append(std::to_string(sil.getHealth()), 0, 5);
+            DrawText(silsHealth.c_str(), 55.f, 45.f, 40, BLUE);
+        }
+
         sil.tick(GetFrameTime());
 
         ducky.tick(GetFrameTime());
+
+        // In your main loop (rendering section)
+        Rectangle weaponRec = sil.getWeaponCollisionRec();
+        DrawRectangleLines(weaponRec.x, weaponRec.y, weaponRec.width, weaponRec.height, RED);
+
+        for (auto enemy : enemies)
+        {
+            if (CheckCollisionRecs(enemy->getFixedCollisionRec(), sil.getWeaponCollisionRec()))
+            {
+                enemy->setAlive(false);
+            }
+        }
         EndDrawing();
     }
     UnloadTexture(map);

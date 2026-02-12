@@ -13,6 +13,7 @@ public:
     void setAlive(bool isAlive) { alive = isAlive; }
     void undoMovement();
     Rectangle getCollisionRec();
+    Rectangle getFixedCollisionRec();
 
 private:
     Character *target;
@@ -36,4 +37,5 @@ private:
     Vector2 velocity{};
     float radius{50.f};
     bool alive{true};
+    float damagePerSec{25.f};
 };

@@ -22,9 +22,7 @@ void Enemy::tick(float deltaTime)
     Vector2 EnemyCenterPos = Vector2Add(EnemyScreenPos, Vector2{width * scale / 2, height * scale / 2});
 
     velocity = Vector2Subtract(CharacterCenterPos, EnemyCenterPos);
-    DrawCircleV(CharacterCenterPos, 5, ORANGE);
-    DrawCircleV(EnemyCenterPos, 5, PURPLE);
-    DrawRectangleLinesEx(getCollisionRec(), 2.0f, YELLOW);
+    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE);
     if (Vector2Length(velocity) < radius)
     {
         undoMovement();
@@ -68,6 +66,11 @@ void Enemy::tick(float deltaTime)
                    WHITE);
 
     velocity = {};
+
+    if (CheckCollisionRecs(target->getFixedCollisionRec(), getFixedCollisionRec()))
+    {
+        target->takeDamage(damagePerSec * deltaTime);
+    }
 }
 void Enemy::undoMovement()
 {
@@ -82,6 +85,15 @@ Rectangle Enemy::getCollisionRec()
         width * scale,
         height * scale};
 }
+Rectangle Enemy::getFixedCollisionRec()
+{
+    return Rectangle{
+        getCollisionRec().x + 40,
+        getCollisionRec().y + 60,
+        width * 2 - 25,
+        height * 2 - 5};
+}
+
 Vector2 Enemy::getScreenPos()
 {
     return screenPos = Vector2Subtract(worldPos, target->getworldPos());

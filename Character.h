@@ -24,7 +24,6 @@ private:
     int windowWidth{};
     int windowHeight{};
     Texture2D weapon{};
-    Rectangle weaponCollisionRec{};
     float health{100.f};
 };
 

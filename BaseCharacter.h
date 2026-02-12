@@ -11,6 +11,7 @@ public:
     Vector2 getworldPos() { return worldPos; }
     void undoMovement();
     Rectangle getCollisionRec();
+    Rectangle getFixedCollisionRec();
     virtual void tick(float deltaTime);
     virtual Vector2 getScreenPos() = 0;
     bool getAlive() { return alive; }
@@ -19,6 +20,9 @@ public:
     float width{};
     float height{};
     float scale{3.0f};
+    // Weapon dimensions
+    float weaponWidth = 130.f;
+    float weaponHeight = 80.f;
 
 protected:
     // Animation

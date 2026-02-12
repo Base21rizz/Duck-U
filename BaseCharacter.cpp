@@ -20,6 +20,14 @@ Rectangle BaseCharacter::getCollisionRec()
         width * scale,
         height * scale};
 }
+Rectangle BaseCharacter::getFixedCollisionRec()
+{
+    return Rectangle{
+        getCollisionRec().x + 110,
+        getCollisionRec().y + 70,
+        width * 2 - 120,
+        height * 2 - 50};
+}
 
 void BaseCharacter::tick(float deltaTime)
 {
@@ -35,16 +43,10 @@ void BaseCharacter::tick(float deltaTime)
             frame = 0;
     }
     // Debugging
-    DrawRectangle(
-        getScreenPos().x,
-        getScreenPos().y,
-        5, 5, BLUE);
-    DrawText("ScreenPos", getScreenPos().x, getScreenPos().y - 20, 10, BLUE);
 
     std::string worldPosText = "WorldPos: " + std::to_string((int)worldPos.x) + ", " + std::to_string((int)worldPos.y);
     DrawText(worldPosText.c_str(), 20, 20, 20, BLUE);
-    DrawRectangleLinesEx(getCollisionRec(), 2.0f, GREEN);
-    DrawCircleV(getScreenPos(), 5.f, RED);
+    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE);
     if (Vector2Length(velocity) != 0.0)
     {
 
@@ -93,11 +95,12 @@ void BaseCharacter::tick(float deltaTime)
                 return;
             origin = {0.f, 0.f};
             offset = {44.f, 25.f};
+
             weaponCollisionRec = {
                 getScreenPos().x + offset.x * scale,
                 getScreenPos().y + offset.y * scale,
-                130,
-                80};
+                weaponWidth,
+                weaponHeight};
             texture = rightAttack;
 
             DrawRectangleLines(
@@ -105,7 +108,7 @@ void BaseCharacter::tick(float deltaTime)
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                RED);
+                BLUE);
         }
         else if (rightLeft < 0.f && upDown == 0.f) // left looking
         {
@@ -115,15 +118,15 @@ void BaseCharacter::tick(float deltaTime)
             weaponCollisionRec = {
                 getScreenPos().x + offset.x * scale,
                 getScreenPos().y + offset.y * scale,
-                130,
-                80};
+                weaponWidth,
+                weaponHeight};
             texture = rightAttack;
             DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                RED);
+                BLUE);
         }
         if (upDown > 0.f) // Up looking
         {
@@ -144,7 +147,7 @@ void BaseCharacter::tick(float deltaTime)
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                RED);
+                BLUE);
         }
         else if (upDown < 0.f) // Down looking
         {
@@ -162,11 +165,14 @@ void BaseCharacter::tick(float deltaTime)
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                RED);
+                BLUE);
         }
     }
-    std::string debugText = "Rotation: " + std::to_string(rightLeft) + ", " + std::to_string(rightLeft);
-    DrawText(debugText.c_str(), 500, 280, 20, GREEN);
+    else
+    {
+        // Reset the box so it disappears when not attacking
+        weaponCollisionRec = {0, 0, 0, 0};
+    }
     // Drawing character to the screen
     Rectangle source{frame * width,
                      0.f,
