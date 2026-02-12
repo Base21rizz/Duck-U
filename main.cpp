@@ -57,7 +57,7 @@ int main()
 
         ducky.tick(GetFrameTime());
 
-        // In your main loop (rendering section)
+        // Debug
         Rectangle weaponRec = sil.getWeaponCollisionRec();
         DrawRectangleLines(weaponRec.x, weaponRec.y, weaponRec.width, weaponRec.height, RED);
 
