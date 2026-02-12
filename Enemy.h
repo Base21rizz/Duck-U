@@ -4,7 +4,7 @@
 class Enemy
 {
 public:
-    Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture);
+    Enemy(Vector2 pos, Texture2D idle_Texture, Texture2D run_Texture, float *Col);
     void tick(float deltaTime);
     Vector2 getworldPos() { return worldPos; }
     Vector2 getScreenPos();
@@ -38,4 +38,5 @@ private:
     float radius{50.f};
     bool alive{true};
     float damagePerSec{25.f};
+    float *HBCol;
 };

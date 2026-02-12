@@ -20,6 +20,11 @@ Vector2 Character::getScreenPos()
 
 void Character::tick(float deltaTime)
 {
+    if (!getAlive())
+    {
+        return;
+    }
+
     // Animation Variable
     if (IsKeyDown(KEY_A))
         velocity.x -= 1.0;
