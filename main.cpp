@@ -18,10 +18,16 @@ int main()
     SetTargetFPS(60);
     int windowWidth{1280};
     int windowHeight{720};
+
+    // Init
     InitWindow(windowWidth, windowHeight, "Duck U");
+    InitAudioDevice();
 
     // Font
     Font customFont = LoadFontEx("Assets/DungeonFont.ttf", 64, 0, 0);
+
+    // Sound
+    Sound deathSound = LoadSound("Assets/sound/lose.wav");
 
     // Character's Health Bar
     Texture2D healthBar = LoadTexture("Assets/04.png");
@@ -31,6 +37,9 @@ int main()
     float HealthHeight = healthBar.height / HealthRow;
     float curCol{1};
     float row{0};
+
+    // Debug
+    bool deathSoundPlayed = false;
 
     // Map
     Texture2D map = LoadTexture("Assets/map.jpg");
@@ -77,18 +86,7 @@ int main()
         DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
         DrawTexturePro(healthBar, HR, DT, Vector2{20, 40}, 0.f, WHITE);
 
-        if (!sil.getAlive()) // Character's Dead
-        {
-            DrawTextEx(customFont, "Game Over!", Vector2{0.4 * windowWidth, 0.4 * windowHeight}, 60, 2, RED);
-        }
-        else // Character's Alive
-        {
-            sil.tick(GetFrameTime());
-            std::string silsHealth = "";
-            silsHealth.append(std::to_string((int)sil.getHealth()), 0, 5);
-            DrawTextEx(customFont, silsHealth.c_str(), textPosition, 15, 2, WHITE);
-        }
-        for (auto &ducky : enemies)
+                for (auto &ducky : enemies)
         {
             ducky.tick(GetFrameTime());
         }
@@ -103,6 +101,26 @@ int main()
             {
                 enemy.takeDamage(sil.damagePerSec * GetFrameTime());
             }
+        }
+        if (!sil.getAlive()) // Character's Dead
+        {
+            if (!deathSoundPlayed)
+            {
+                PlaySound(deathSound);
+                deathSoundPlayed = true;
+            }
+            DrawTextEx(customFont, "Game Over!", Vector2{0.4f * windowWidth, 0.4f * windowHeight}, 60, 2, RED);
+            if (!IsSoundPlaying(deathSound))
+            {
+                break;
+            }
+        }
+        else // Character's Alive
+        {
+            sil.tick(GetFrameTime());
+            std::string silsHealth = "";
+            silsHealth.append(std::to_string((int)sil.getHealth()), 0, 5);
+            DrawTextEx(customFont, silsHealth.c_str(), textPosition, 15, 2, WHITE);
         }
         EndDrawing();
     }

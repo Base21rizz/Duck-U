@@ -35,6 +35,7 @@ protected:
     Texture2D leftAttack{LoadTexture("Assets/Animation/attack1_left.png")};
     Texture2D upAttack{LoadTexture("Assets/Animation/attack1_up.png")};
     Texture2D downAttack{LoadTexture("Assets/Animation/attack1_down.png")};
+    Sound slashSound = LoadSound("Assets/sound/Sword_Whoosh_03.wav");
 
     Vector2 worldPos{};
     Rectangle weaponCollisionRec{};
@@ -50,6 +51,11 @@ protected:
     float updateTime{1.f / 18.f};
     float speed{4.f};
     Vector2 velocity{};
+    float soundTime{0.f};
+    // Attack animation
+    bool isAttacking{false};
+    float attackRunningTime{};
+    int attackFrame{};
 
 private:
     bool alive{true};

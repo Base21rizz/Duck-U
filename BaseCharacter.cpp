@@ -33,26 +33,9 @@ void BaseCharacter::tick(float deltaTime)
 {
     worldPosLastFrame = worldPos;
 
-    // Update animation frame
-    runningTime += deltaTime;
-    if (runningTime >= updateTime)
-    {
-        frame++;
-        runningTime = 0.f;
-        if (frame >= maxFrames)
-            frame = 0;
-    }
-    // Debugging
-
-    /* std::string worldPosText = "WorldPos: " + std::to_string((int)worldPos.x) + ", " + std::to_string((int)worldPos.y);
-    DrawText(worldPosText.c_str(), 20, 20, 20, BLUE);
-    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE); */
+    // Update direction based on velocity, even during attack
     if (Vector2Length(velocity) != 0.0)
     {
-
-        // Set worldPos += velocity
-        worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed));
-
         if (velocity.x < 0.f)
         {
             rightLeft = -1.f;
@@ -65,34 +48,65 @@ void BaseCharacter::tick(float deltaTime)
         }
         if (velocity.y > 0.f)
         {
-            texture = runDown;
             upDown = -1.f;
         }
         else if (velocity.y < 0.f)
         {
-            texture = runUp;
             upDown = 1.f;
         }
         else
         {
-            texture = run;
+            upDown = 0.f;
         }
     }
-    else
-    {
-        // Animation selection
-        texture = idle;
-    }
-    Vector2 origin{};
-    Vector2 offset{};
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-    {
 
+    // Update normal animation frame only if not attacking
+    if (!isAttacking)
+    {
+        runningTime += deltaTime;
+        if (runningTime >= updateTime)
+        {
+            frame++;
+            runningTime = 0.f;
+            if (frame >= maxFrames)
+            {
+                frame = 0;
+            }
+        }
+    }
+
+    // Start attack if not already attacking and mouse button down
+    if (!isAttacking && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    {
+        isAttacking = true;
+        attackFrame = 0;
+        attackRunningTime = 0.f;
+        PlaySound(slashSound);
+    }
+
+    // Handle attacking state
+    if (isAttacking)
+    {
+        attackRunningTime += deltaTime;
+        if (attackRunningTime >= updateTime)
+        {
+            attackFrame++;
+            attackRunningTime = 0.f;
+            if (attackFrame >= maxFrames)
+            {
+                isAttacking = false;
+                attackFrame = 0;
+            }
+        }
+
+        undoMovement();
+        if (!getAlive())
+            return;
+
+        Vector2 origin{};
+        Vector2 offset{};
         if (rightLeft > 0.f && upDown == 0.f) // right looking
         {
-            undoMovement();
-            if (!getAlive())
-                return;
             origin = {0.f, 0.f};
             offset = {44.f, 25.f};
 
@@ -102,17 +116,9 @@ void BaseCharacter::tick(float deltaTime)
                 weaponWidth,
                 weaponHeight};
             texture = rightAttack;
-
-            /* DrawRectangleLines(
-                weaponCollisionRec.x,
-                weaponCollisionRec.y,
-                weaponCollisionRec.width,
-                weaponCollisionRec.height,
-                BLUE); */
         }
         else if (rightLeft < 0.f && upDown == 0.f) // left looking
         {
-            undoMovement();
             origin = {0.f, 0.f};
             offset = {10.f, 25.f};
             weaponCollisionRec = {
@@ -121,18 +127,9 @@ void BaseCharacter::tick(float deltaTime)
                 weaponWidth,
                 weaponHeight};
             texture = rightAttack;
-            /* DrawRectangleLines(
-                weaponCollisionRec.x,
-                weaponCollisionRec.y,
-                weaponCollisionRec.width,
-                weaponCollisionRec.height,
-                BLUE); */
         }
-        if (upDown > 0.f) // Up looking
+        else if (upDown > 0.f) // Up looking
         {
-            undoMovement();
-            if (!getAlive())
-                return;
             origin = {0.f, 0.f};
             offset = {18.f, 15.f};
             weaponCollisionRec = {
@@ -142,16 +139,9 @@ void BaseCharacter::tick(float deltaTime)
                 100};
             rightLeft = 1.f;
             texture = upAttack;
-            /* DrawRectangleLines(
-                weaponCollisionRec.x,
-                weaponCollisionRec.y,
-                weaponCollisionRec.width,
-                weaponCollisionRec.height,
-                BLUE); */
         }
         else if (upDown < 0.f) // Down looking
         {
-            undoMovement();
             origin = {0.f, 0.f};
             offset = {20.f, 33.f};
             weaponCollisionRec = {
@@ -160,21 +150,40 @@ void BaseCharacter::tick(float deltaTime)
                 170,
                 113};
             texture = downAttack;
-            /* DrawRectangleLines(
-                weaponCollisionRec.x,
-                weaponCollisionRec.y,
-                weaponCollisionRec.width,
-                weaponCollisionRec.height,
-                BLUE); */
         }
     }
     else
     {
         // Reset the box so it disappears when not attacking
         weaponCollisionRec = {0, 0, 0, 0};
+
+        if (Vector2Length(velocity) != 0.0)
+        {
+            // Set worldPos += velocity
+            worldPos = Vector2Add(worldPos, Vector2Scale(Vector2Normalize(velocity), speed));
+
+            if (velocity.y > 0.f)
+            {
+                texture = runDown;
+            }
+            else if (velocity.y < 0.f)
+            {
+                texture = runUp;
+            }
+            else
+            {
+                texture = run;
+            }
+        }
+        else
+        {
+            // Animation selection
+            texture = idle;
+        }
     }
+
     // Drawing character to the screen
-    Rectangle source{frame * width,
+    Rectangle source{(isAttacking ? attackFrame : frame) * width,
                      0.f,
                      rightLeft * width,
                      height};
