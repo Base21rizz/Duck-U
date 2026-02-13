@@ -33,6 +33,8 @@ void BaseCharacter::tick(float deltaTime)
 {
     worldPosLastFrame = worldPos;
 
+    lastAttackTime += deltaTime;
+
     // Update direction based on velocity, even during attack
     if (Vector2Length(velocity) != 0.0)
     {
@@ -75,13 +77,17 @@ void BaseCharacter::tick(float deltaTime)
         }
     }
 
-    // Start attack if not already attacking and mouse button down
-    if (!isAttacking && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    // Start attack if not already attacking and mouse button pressed, with cooldown
+    if (!isAttacking && IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && lastAttackTime >= 0.2f)
     {
         isAttacking = true;
         attackFrame = 0;
         attackRunningTime = 0.f;
-        PlaySound(slashSound);
+        lastAttackTime = 0.f;
+        if (!IsSoundPlaying(slashSound) && !IsSoundPlaying(hitSound))
+        {
+            PlaySound(slashSound);
+        }
     }
 
     // Handle attacking state

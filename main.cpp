@@ -51,7 +51,7 @@ int main()
     Character sil{windowWidth, windowHeight, dust};
 
     std::vector<Enemy> enemies;
-    const int MAX_ENEMIES = 10;
+    const int MAX_ENEMIES = 1;
     Texture2D enemIdle = LoadTexture("Assets/Animation/Ducky/ducky-idle.png");
     Texture2D enemWalk = LoadTexture("Assets/Animation/Ducky/ducky-walk.png");
     // Enemy
@@ -86,7 +86,7 @@ int main()
         DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
         DrawTexturePro(healthBar, HR, DT, Vector2{20, 40}, 0.f, WHITE);
 
-                for (auto &ducky : enemies)
+        for (auto &ducky : enemies)
         {
             ducky.tick(GetFrameTime());
         }
@@ -100,6 +100,11 @@ int main()
             if (CheckCollisionRecs(enemy.getFixedCollisionRec(), sil.getWeaponCollisionRec()))
             {
                 enemy.takeDamage(sil.damagePerSec * GetFrameTime());
+                if (!IsSoundPlaying(sil.hitSound))
+                {
+                    PlaySound(sil.hitSound);
+                    StopSound(sil.slashSound);
+                }
             }
         }
         if (!sil.getAlive()) // Character's Dead

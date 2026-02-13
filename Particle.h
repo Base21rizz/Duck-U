@@ -18,6 +18,7 @@ public:
     float height{(float)run_dust.height};
     void tick(float deltaTime, float rightLeftDir, Vector2 velocity);
     float rightLeftDir;
+    float opacity{1.0f};
 
 private:
 };

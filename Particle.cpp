@@ -40,6 +40,6 @@ void Particle::tick(float deltaTime, float rightLeftDir, Vector2 velocity)
                        dest,
                        Vector2{},
                        -90.f,
-                       WHITE);
+                       Fade(WHITE, opacity));
     }
 }

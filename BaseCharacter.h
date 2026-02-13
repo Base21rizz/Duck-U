@@ -17,12 +17,17 @@ public:
     bool getAlive() { return alive; }
     void setAlive(bool isAlive) { alive = isAlive; }
     float getRightLeft() { return rightLeft; }
+    void stopSlashSound() { StopSound(slashSound); }
     float width{};
     float height{};
     float scale{3.0f};
     // Weapon dimensions
     float weaponWidth = 130.f;
     float weaponHeight = 80.f;
+
+    Sound hitSound = LoadSound("Assets/sound/Sword_Whoosh_03.wav");
+    Sound slashSound = LoadSound("Assets/sound/whoosh_2.wav");
+    bool hitSoundPlaying{false};
 
 protected:
     // Animation
@@ -35,7 +40,6 @@ protected:
     Texture2D leftAttack{LoadTexture("Assets/Animation/attack1_left.png")};
     Texture2D upAttack{LoadTexture("Assets/Animation/attack1_up.png")};
     Texture2D downAttack{LoadTexture("Assets/Animation/attack1_down.png")};
-    Sound slashSound = LoadSound("Assets/sound/Sword_Whoosh_03.wav");
 
     Vector2 worldPos{};
     Rectangle weaponCollisionRec{};
@@ -56,6 +60,7 @@ protected:
     bool isAttacking{false};
     float attackRunningTime{};
     int attackFrame{};
+    float lastAttackTime{};
 
 private:
     bool alive{true};
