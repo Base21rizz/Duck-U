@@ -54,7 +54,7 @@ int main()
     Character sil{windowWidth, windowHeight, dust};
 
     std::vector<Enemy> enemies;
-    const int MAX_ENEMIES = 0;
+    const int MAX_ENEMIES = 10;
     Texture2D enemIdle = LoadTexture("Assets/Animation/Ducky/ducky-idle.png");
     Texture2D enemWalk = LoadTexture("Assets/Animation/Ducky/ducky-walk.png");
     // Enemy
@@ -111,7 +111,6 @@ int main()
                     StopSound(sil.slashSound);
                 }
             }
-            DrawRectangleLines(enemy.getFixedCollisionRec().x, enemy.getFixedCollisionRec().y, enemy.getFixedCollisionRec().width, enemy.getFixedCollisionRec().height, BLUE);
         }
         if (!sil.getAlive()) // Character's Dead
         {
@@ -134,6 +133,7 @@ int main()
             silsHealth.append(std::to_string((int)sil.getHealth()), 0, 5);
             DrawTextEx(customFont, silsHealth.c_str(), textPosition, 15, 2, WHITE);
         }
+
         // MapBoundaries
         if (sil.getworldPos().x < 0.f ||
             sil.getworldPos().y < 0.f ||
@@ -172,7 +172,6 @@ int main()
         {
             sil.undoMovement();
         }
-
         EndDrawing();
     }
     UnloadMusicStream(bgm);

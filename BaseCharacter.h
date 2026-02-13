@@ -53,7 +53,7 @@ protected:
     int frame{};
     int maxFrames{8};
     float updateTime{1.f / 18.f};
-    float speed{10.f};
+    float speed{4.f};
     Vector2 velocity{};
     float soundTime{0.f};
     // Attack animation
