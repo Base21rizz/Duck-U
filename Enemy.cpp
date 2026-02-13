@@ -15,7 +15,7 @@ void Enemy::tick(float deltaTime)
 {
     if (!getAlive())
         return;
-    if (getAlive()) // Enemy is alive
+    else if (getAlive()) // Enemy is alive
     {
         float rowChoosing{1.0f};
         std::string enemyHealth = "Enemy Health: ";
@@ -122,22 +122,30 @@ void Enemy::undoMovement()
 {
     worldPos = worldPosLastFrame;
 }
+Rectangle Enemy::getFixedCollisionRec()
+{
+
+    if (getAlive())
+    {
+        return Rectangle{
+            getCollisionRec().x + 40,
+            getCollisionRec().y + 60,
+            width * 2 - 25,
+            height * 2 - 5};
+    }
+    else
+    {
+        return Rectangle{0, 0, 0, 0};
+    }
+}
 
 Rectangle Enemy::getCollisionRec()
 {
     return Rectangle{
-        screenPos.x,
-        screenPos.y,
+        getScreenPos().x,
+        getScreenPos().y,
         width * scale,
         height * scale};
-}
-Rectangle Enemy::getFixedCollisionRec()
-{
-    return Rectangle{
-        getCollisionRec().x + 40,
-        getCollisionRec().y + 60,
-        width * 2 - 25,
-        height * 2 - 5};
 }
 
 Vector2 Enemy::getScreenPos()

@@ -16,6 +16,9 @@ public:
     Rectangle getFixedCollisionRec();
     float getHealth() const { return EnemyHealth; }
     void takeDamage(float damage);
+    float width{};
+    float height{};
+    float scale{3.0f};
 
 private:
     Character *target;
@@ -34,9 +37,7 @@ private:
     int maxFrames{2};
     float updateTime{1.f / 6.f};
     float speed{100.f};
-    float width{};
-    float height{};
-    float scale{3.0f};
+
     Vector2 velocity{};
     float radius{50.f};
     bool alive{true};

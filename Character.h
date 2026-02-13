@@ -19,7 +19,7 @@ public:
     float getHealth() const { return health; }
     void takeDamage(float damage);
 
-    float damagePerSec{25.f};
+    float damagePerSec{50.f};
     Particle dust;
 
 private:

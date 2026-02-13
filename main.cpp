@@ -28,6 +28,9 @@ int main()
 
     // Sound
     Sound deathSound = LoadSound("Assets/sound/lose.wav");
+    Sound bgm = LoadSound("Assets/sound/Suspense.wav");
+    SetSoundVolume(bgm, 0.1f);
+    PlaySound(bgm);
 
     // Character's Health Bar
     Texture2D healthBar = LoadTexture("Assets/04.png");
@@ -51,7 +54,7 @@ int main()
     Character sil{windowWidth, windowHeight, dust};
 
     std::vector<Enemy> enemies;
-    const int MAX_ENEMIES = 1;
+    const int MAX_ENEMIES = 10;
     Texture2D enemIdle = LoadTexture("Assets/Animation/Ducky/ducky-idle.png");
     Texture2D enemWalk = LoadTexture("Assets/Animation/Ducky/ducky-walk.png");
     // Enemy
@@ -106,6 +109,7 @@ int main()
                     StopSound(sil.slashSound);
                 }
             }
+            DrawRectangleLines(enemy.getFixedCollisionRec().x, enemy.getFixedCollisionRec().y, enemy.getFixedCollisionRec().width, enemy.getFixedCollisionRec().height, BLUE);
         }
         if (!sil.getAlive()) // Character's Dead
         {
