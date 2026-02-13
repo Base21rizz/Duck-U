@@ -42,8 +42,8 @@ void Enemy::tick(float deltaTime)
             EnemyHealthWidth,
             EnemyHealthHeight};
         Rectangle DT{
-            getScreenPos().x + 27,
-            getScreenPos().y + 45,
+            getScreenPos().x,
+            getScreenPos().y + 17.f,
             2 * EnemyHealthWidth,
             2 * EnemyHealthHeight};
         DrawTexturePro(healthBar, HR, DT, Vector2{0, 0}, 0.f, WHITE);

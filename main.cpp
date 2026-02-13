@@ -54,7 +54,7 @@ int main()
     Character sil{windowWidth, windowHeight, dust};
 
     std::vector<Enemy> enemies;
-    const int MAX_ENEMIES = 5;
+    const int MAX_ENEMIES = 0;
     Texture2D enemIdle = LoadTexture("Assets/Animation/Ducky/ducky-idle.png");
     Texture2D enemWalk = LoadTexture("Assets/Animation/Ducky/ducky-walk.png");
     // Enemy
@@ -139,6 +139,36 @@ int main()
             sil.getworldPos().y < 0.f ||
             sil.getworldPos().x + windowWidth > map.width * mapScale ||
             sil.getworldPos().y + windowHeight > map.height * mapScale)
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 2177 && sil.getworldPos().y >= 820) &&
+             (sil.getworldPos().x <= 1878 && sil.getworldPos().x >= 609)))
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 1041 && sil.getworldPos().y >= 275) &&
+             (sil.getworldPos().x <= 3115 && sil.getworldPos().x >= 2356)))
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 1922 && sil.getworldPos().y >= 1754) &&
+             (sil.getworldPos().x <= 3380 && sil.getworldPos().x >= 2948)))
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 1019 && sil.getworldPos().y >= 0) &&
+             (sil.getworldPos().x <= 4225 && sil.getworldPos().x >= 3449)))
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 1840 && sil.getworldPos().y >= 1019) &&
+             (sil.getworldPos().x <= 4225 && sil.getworldPos().x >= 3644)))
+        {
+            sil.undoMovement();
+        }
+        if (((sil.getworldPos().y <= 2355 && sil.getworldPos().y >= 2119) &&
+             (sil.getworldPos().x <= 4225 && sil.getworldPos().x >= 2276)))
         {
             sil.undoMovement();
         }
