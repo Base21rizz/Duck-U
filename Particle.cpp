@@ -42,6 +42,4 @@ void Particle::tick(float deltaTime, float rightLeftDir, Vector2 velocity)
                        -90.f,
                        WHITE);
     }
-    std::string debugText = "Rotation: " + std::to_string(velocity.x) + ", " + std::to_string(velocity.y);
-    DrawText(debugText.c_str(), 155, 280, 20, GREEN);
 }

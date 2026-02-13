@@ -17,29 +17,35 @@ void Enemy::tick(float deltaTime)
         return;
     if (getAlive()) // Enemy is alive
     {
+        float rowChoosing{1.0f};
         std::string enemyHealth = "Enemy Health: ";
         enemyHealth.append(std::to_string(EnemyHealth), 0, 5);
         if (EnemyHealth == 50.00)
-            curEnemyCol = 9;
+            curEnemyCol = 1;
         else if (EnemyHealth >= 40.00)
-            curEnemyCol = 10;
+            curEnemyCol = 2;
+        else if (EnemyHealth >= 30.00)
+            curEnemyCol = 3;
         else if (EnemyHealth >= 20.00)
-            curEnemyCol = 12;
+            curEnemyCol = 4;
         else if (EnemyHealth >= 10.00)
-            curEnemyCol = 13;
-        else if (EnemyHealth == 0.00)
-            curEnemyCol = 14;
+            curEnemyCol = 5;
+        else if (EnemyHealth <= 1.00)
+        {
+            curEnemyCol = 0;
+            rowChoosing = 3.f;
+        }
 
         Rectangle HR{
-            EnemyHealthRow * EnemyHealthHeight,
             curEnemyCol * EnemyHealthWidth,
+            rowChoosing * EnemyHealthHeight,
             EnemyHealthWidth,
             EnemyHealthHeight};
         Rectangle DT{
-            getScreenPos().x,
-            getScreenPos().y - 20,
-            4 * EnemyHealthWidth,
-            4 * EnemyHealthHeight};
+            getScreenPos().x + 27,
+            getScreenPos().y + 45,
+            2 * EnemyHealthWidth,
+            2 * EnemyHealthHeight};
         DrawTexturePro(healthBar, HR, DT, Vector2{0, 0}, 0.f, WHITE);
     }
     worldPosLastFrame = worldPos;
@@ -50,7 +56,6 @@ void Enemy::tick(float deltaTime)
     Vector2 EnemyCenterPos = Vector2Add(EnemyScreenPos, Vector2{width * scale / 2, height * scale / 2});
 
     velocity = Vector2Subtract(CharacterCenterPos, EnemyCenterPos);
-    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE);
     if (Vector2Length(velocity) < radius)
     {
         undoMovement();
@@ -110,9 +115,7 @@ void Enemy::tick(float deltaTime)
         else if (target->getHealth() >= 16.66f)
             *HBCol = 6;
         else if (target->getHealth() <= 0.f)
-            *HBCol = 7;
-
-        DrawText(std::to_string(*HBCol).c_str(), 200, 110, 20, BLUE);
+            *HBCol = 0;
     }
 }
 void Enemy::undoMovement()

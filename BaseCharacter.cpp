@@ -44,9 +44,9 @@ void BaseCharacter::tick(float deltaTime)
     }
     // Debugging
 
-    std::string worldPosText = "WorldPos: " + std::to_string((int)worldPos.x) + ", " + std::to_string((int)worldPos.y);
+    /* std::string worldPosText = "WorldPos: " + std::to_string((int)worldPos.x) + ", " + std::to_string((int)worldPos.y);
     DrawText(worldPosText.c_str(), 20, 20, 20, BLUE);
-    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE);
+    DrawRectangleLinesEx(getFixedCollisionRec(), 2.0f, BLUE); */
     if (Vector2Length(velocity) != 0.0)
     {
 
@@ -103,12 +103,12 @@ void BaseCharacter::tick(float deltaTime)
                 weaponHeight};
             texture = rightAttack;
 
-            DrawRectangleLines(
+            /* DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                BLUE);
+                BLUE); */
         }
         else if (rightLeft < 0.f && upDown == 0.f) // left looking
         {
@@ -121,12 +121,12 @@ void BaseCharacter::tick(float deltaTime)
                 weaponWidth,
                 weaponHeight};
             texture = rightAttack;
-            DrawRectangleLines(
+            /* DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                BLUE);
+                BLUE); */
         }
         if (upDown > 0.f) // Up looking
         {
@@ -142,12 +142,12 @@ void BaseCharacter::tick(float deltaTime)
                 100};
             rightLeft = 1.f;
             texture = upAttack;
-            DrawRectangleLines(
+            /* DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                BLUE);
+                BLUE); */
         }
         else if (upDown < 0.f) // Down looking
         {
@@ -160,14 +160,14 @@ void BaseCharacter::tick(float deltaTime)
                 170,
                 113};
             texture = downAttack;
-            DrawRectangleLines(
+            /* DrawRectangleLines(
                 weaponCollisionRec.x,
                 weaponCollisionRec.y,
                 weaponCollisionRec.width,
                 weaponCollisionRec.height,
-                BLUE);
+                BLUE); */
         }
-        }
+    }
     else
     {
         // Reset the box so it disappears when not attacking

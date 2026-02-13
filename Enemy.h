@@ -40,12 +40,12 @@ private:
     Vector2 velocity{};
     float radius{50.f};
     bool alive{true};
-    float damagePerSec{10.f};
+    float damagePerSec{3.f};
     float *HBCol;
     float EnemyHealth{50.f};
-    float EnemyHealthRow = 5;
-    float EnemyHealthCol = 22;
+    float EnemyHealthRow = 14;
+    float EnemyHealthCol = 7;
     float EnemyHealthWidth = healthBar.width / EnemyHealthCol;
     float EnemyHealthHeight = healthBar.height / EnemyHealthRow;
-    float curEnemyCol{9};
+    float curEnemyCol{1.f};
 };

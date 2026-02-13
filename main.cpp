@@ -20,6 +20,9 @@ int main()
     int windowHeight{720};
     InitWindow(windowWidth, windowHeight, "Duck U");
 
+    // Font
+    Font customFont = LoadFontEx("Assets/DungeonFont.ttf", 64, 0, 0);
+
     // Character's Health Bar
     Texture2D healthBar = LoadTexture("Assets/04.png");
     float HealthRow = 14;
@@ -27,6 +30,7 @@ int main()
     float HealthWidth = healthBar.width / HealthCol;
     float HealthHeight = healthBar.height / HealthRow;
     float curCol{1};
+    float row{0};
 
     // Map
     Texture2D map = LoadTexture("Assets/map.jpg");
@@ -55,9 +59,11 @@ int main()
     {
         BeginDrawing();
         ClearBackground(WHITE);
+        Vector2 textPosition = {110.f, 47.f};
+
         Rectangle HR{
             curCol * HealthWidth,
-            0,
+            row * HealthHeight,
             HealthWidth,
             HealthHeight};
         Rectangle DT{
@@ -69,27 +75,27 @@ int main()
         mapPos = Vector2Scale(sil.getworldPos(), -1.f);
 
         DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
-        DrawTexturePro(healthBar, HR, DT, Vector2{50, 60}, 0.f, WHITE);
+        DrawTexturePro(healthBar, HR, DT, Vector2{20, 40}, 0.f, WHITE);
 
         if (!sil.getAlive()) // Character's Dead
         {
-            DrawText("Game Over!", 55.f, 45.f, 40, RED);
+            DrawTextEx(customFont, "Game Over!", Vector2{0.4 * windowWidth, 0.4 * windowHeight}, 60, 2, RED);
         }
         else // Character's Alive
         {
             sil.tick(GetFrameTime());
-            std::string silsHealth = "Health: ";
-            silsHealth.append(std::to_string(sil.getHealth()), 0, 5);
-            DrawText(silsHealth.c_str(), 55.f, 45.f, 40, BLUE);
+            std::string silsHealth = "";
+            silsHealth.append(std::to_string((int)sil.getHealth()), 0, 5);
+            DrawTextEx(customFont, silsHealth.c_str(), textPosition, 15, 2, WHITE);
         }
         for (auto &ducky : enemies)
         {
             ducky.tick(GetFrameTime());
         }
 
-        // Debug
+        /* // Debug
         Rectangle weaponRec = sil.getWeaponCollisionRec();
-        DrawRectangleLines(weaponRec.x, weaponRec.y, weaponRec.width, weaponRec.height, RED);
+        DrawRectangleLines(weaponRec.x, weaponRec.y, weaponRec.width, weaponRec.height, RED); */
 
         for (auto &enemy : enemies)
         {
