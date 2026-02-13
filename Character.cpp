@@ -32,6 +32,11 @@ void Character::tick(float deltaTime)
         velocity.y -= 1.0;
     if (IsKeyDown(KEY_S))
         velocity.y += 1.0;
+    // World position debug
+    DrawText(std::to_string((int)worldPos.x).c_str(), 10, 10, 20, RED);
+    DrawText(std::to_string((int)worldPos.y).c_str(), 10, 30, 20, RED);
+
+    // MapBoundaries
 
     dust.tick(GetFrameTime(), getRightLeft(), velocity);
     BaseCharacter::tick(deltaTime);

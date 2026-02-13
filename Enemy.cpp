@@ -128,10 +128,10 @@ Rectangle Enemy::getFixedCollisionRec()
     if (getAlive())
     {
         return Rectangle{
-            getCollisionRec().x + 40,
-            getCollisionRec().y + 60,
-            width * 2 - 25,
-            height * 2 - 5};
+            getCollisionRec().x + width / 2.f,
+            getCollisionRec().y + height,
+            width,
+            height};
     }
     else
     {

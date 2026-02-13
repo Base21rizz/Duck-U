@@ -28,9 +28,10 @@ int main()
 
     // Sound
     Sound deathSound = LoadSound("Assets/sound/lose.wav");
-    Sound bgm = LoadSound("Assets/sound/Suspense.wav");
-    SetSoundVolume(bgm, 0.1f);
-    PlaySound(bgm);
+    Music bgm = LoadMusicStream("Assets/sound/Suspense.wav");
+    SetMusicVolume(bgm, 0.1f);
+    PlayMusicStream(bgm);
+    bool deathSoundPlayed = false;
 
     // Character's Health Bar
     Texture2D healthBar = LoadTexture("Assets/04.png");
@@ -41,20 +42,19 @@ int main()
     float curCol{1};
     float row{0};
 
-    // Debug
-    bool deathSoundPlayed = false;
-
     // Map
-    Texture2D map = LoadTexture("Assets/map.jpg");
+    Texture2D map = LoadTexture("Assets/map.png");
     Vector2 mapPos{0.0, 0.0};
-    const float mapScale{1.5f};
+    const float mapScale{2.f};
+
+    // Debug
 
     // Character
     Particle dust;
     Character sil{windowWidth, windowHeight, dust};
 
     std::vector<Enemy> enemies;
-    const int MAX_ENEMIES = 10;
+    const int MAX_ENEMIES = 5;
     Texture2D enemIdle = LoadTexture("Assets/Animation/Ducky/ducky-idle.png");
     Texture2D enemWalk = LoadTexture("Assets/Animation/Ducky/ducky-walk.png");
     // Enemy
@@ -69,8 +69,10 @@ int main()
     }
     while (!WindowShouldClose())
     {
+        UpdateMusicStream(bgm);
         BeginDrawing();
         ClearBackground(WHITE);
+
         Vector2 textPosition = {110.f, 47.f};
 
         Rectangle HR{
@@ -113,6 +115,7 @@ int main()
         }
         if (!sil.getAlive()) // Character's Dead
         {
+            StopMusicStream(bgm);
             if (!deathSoundPlayed)
             {
                 PlaySound(deathSound);
@@ -131,8 +134,18 @@ int main()
             silsHealth.append(std::to_string((int)sil.getHealth()), 0, 5);
             DrawTextEx(customFont, silsHealth.c_str(), textPosition, 15, 2, WHITE);
         }
+        // MapBoundaries
+        if (sil.getworldPos().x < 0.f ||
+            sil.getworldPos().y < 0.f ||
+            sil.getworldPos().x + windowWidth > map.width * mapScale ||
+            sil.getworldPos().y + windowHeight > map.height * mapScale)
+        {
+            sil.undoMovement();
+        }
+
         EndDrawing();
     }
+    UnloadMusicStream(bgm);
     UnloadTexture(map);
     CloseWindow();
 }

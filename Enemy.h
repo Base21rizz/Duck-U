@@ -18,7 +18,7 @@ public:
     void takeDamage(float damage);
     float width{};
     float height{};
-    float scale{3.0f};
+    float scale{2.0f};
 
 private:
     Character *target;
